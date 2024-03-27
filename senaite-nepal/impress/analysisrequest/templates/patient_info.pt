@@ -1,0 +1,67 @@
+<tal:t define="model python:view.model;
+               client model/Client;
+               contact model/Contact;
+               laboratory python:view.laboratory;"
+       i18n:domain="senaite.impress">
+
+  <div class="row section-info no-gutters">
+    <div class="w-100">
+      <!-- Client Info -->
+      <table class="table table-sm table-condensed">
+        <colgroup>
+          <!-- Client Address -->
+          <col style="width: 50%;">
+          <!-- Lab Address -->
+          <col style="width: 50%">
+         
+        </colgroup>
+        <tr>
+          <td>
+            <address class="client-address">
+               <div class="lab-title  ">
+                  <div> Hospital ID: <span class="font-weight-bold">  <span tal:replace="laboratory/title|nothing"/> </span> </div>
+              </div>
+              <div class="client-name">
+                  <div> Patient Name  <span class="font-weight-bold"> <span tal:replace="client/Name|nothing"/> </span> </div>
+              </div>
+              <span class="client-city">
+                <div> Address: <span tal:replace="client/PostalAddress/city|nothing"></span> </div>
+              </span>
+              
+              <div class="contact-email">
+                <div> Email: <a tal:content="contact/EmailAddress|nothing"
+                   tal:attributes="href string:mailto:${contact/EmailAddress}"></a> </div>
+              </div>
+              <div class="contact-phone">
+                <div> Phone: <span tal:replace="contact/Phone|nothing"></span> </div>
+              </div>
+
+              <div class="contact-phone">
+                <div> Age/Gender: <span tal:replace="client/Age|nothing"></span>/<span tal:replace="client/Gender|nothing"></span> </div>
+              </div>
+              
+            </address>
+          </td>
+          <td>
+            <!-- Laboratory Info -->
+            <address class="laboratory-address">
+              <div class="lab-title">
+                <div> Report Printed Date <span class="font-weight-bold"> <span tal:replace="nothing"/> </span> </div>
+              </div>
+
+              <div class="lab-title">
+                <div> Assession Number: <span class="font-weight-bold"> <span tal:replace="nothing"/> </span> </div>
+              </div>
+            </address>
+          </td>
+
+        </tr>
+      </table>
+    </div>
+    <!-- Clear Floats
+         https://github.com/Kozea/WeasyPrint/issues/36
+    -->
+    <div class="clearfix"></div>
+  </div>
+
+</tal:t>
