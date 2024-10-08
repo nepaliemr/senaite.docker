@@ -1,0 +1,23 @@
+<tal:t define="model python:view.model;
+               client model/Client;
+               contact model/Contact;
+               laboratory python:view.laboratory;"
+       i18n:domain="senaite.impress">
+
+  <div class="row section-info no-gutters">
+    <div class="w-100">
+
+      <div class="qrcode"
+          data-size="80"
+          data-color="#3a3"
+          tal:attributes="data-text model/absolute_url">
+      </div>
+      
+    </div>
+    <!-- Clear Floats
+         https://github.com/Kozea/WeasyPrint/issues/36
+    -->
+    <div class="clearfix"></div>
+  </div>
+
+</tal:t>

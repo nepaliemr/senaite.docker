@@ -1,0 +1,46 @@
+<tal:report>
+
+  <!-- REPORT CSS -->
+  <tal:t replace="structure python:view.render_css(context, **options)" />
+
+  <!-- CUSTOM REPORT CSS -->
+  <tal:t replace="structure python:view.render_custom_css(context, **options)" />
+
+  <!-- REPORT INFO -->
+  <tal:t replace="structure python:view.render_info_nepal(context, **options)" />
+
+  <!-- PATIENT  INFO -->
+  <!-- <tal:t replace="structure python:view.render_patient_info(context, **options)" /> -->
+
+  <!-- REPORT SUMMARY -->
+  <!-- <tal:t replace="structure python:view.render_summary(context, **options)" /> -->
+
+  <!-- REPORT RESULTS -->
+  <tal:t replace="structure python:view.render_results(context, **options)" />
+
+  <!-- RESULTS INTERPRETATION -->
+  <tal:t replace="structure python:view.render_interpretations(context, **options)" />
+
+  <!-- REPORT QR CODE -->
+  <!-- <tal:t replace="structure python:view.render_qr_code(context, **options)" /> -->
+
+  <!-- SAMPLE REMARKS -->
+  <tal:t replace="structure python:view.render_remarks(context, **options)" />
+
+  <!-- REPORT ATTACHMENTS -->
+  <tal:t replace="structure python:view.render_attachments(context, **options)" />
+
+  <!-- REPORT SIGNATURES -->
+  <tal:t replace="structure python:view.render_signatures_nepal(context, **options)" />
+
+  <!-- REPORT DISCREETER -->
+  <tal:t replace="structure python:view.render_discreeter(context, **options)" />
+
+  <!-- REPORT FOOTER -->
+  <tal:t replace="structure python:view.render_footer_nepal(context, **options)" />
+
+</tal:report>
+
+
+
+

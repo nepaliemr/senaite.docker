@@ -1,0 +1,92 @@
+<tal:t define="model python:view.model;
+               client model/Client;
+               contact model/Contact;
+               laboratory python:view.laboratory;" i18n:domain="senaite.impress">
+
+  <div class="row section-info no-gutters">
+    <div class="w-100">
+      <!-- Client Info -->
+      <table class="table nepal-info table-sm table-condensed noborder" style="background-color: rgba(255, 255, 255, 0.8); border-radius: 8px;">
+        <colgroup>
+          <col style="width: 10%">
+            <col style="width: 40%">
+              <col style="width: 50%">
+              </colgroup>
+              <tr class="">
+                <td class="" style="vertical-align: middle;">
+                  <address class="laboratory-address">
+                    <div class="client-name font-weight-bold">
+                      <img class="logo" tal:attributes="src string:++plone++senaite.core.static/images/nepal.png"/>
+                    </div>
+                  </address>
+                </td>
+                <td class="" style="vertical-align: middle;">
+                  <address class="laboratory-address">
+                    <div class="red flex flex-column">
+                      <div class="mt-0">
+                        <tal:h3 tal:replace="laboratory/Subtitle|nothing"/>
+                      </div>
+                      <div class="mt-0">
+                        <tal:h3 tal:replace="laboratory/Ministry|nothing"/>
+                      </div>
+                      <h2 style="color: #333;">
+                        <tal:span tal:replace="laboratory/title|nothing"/>
+                      </h2>
+                    </div>
+                  </address>
+                </td>
+                <td class="" style="border-left: 2px solid #f0f0f0; vertical-align: middle;">
+                  <address class="laboratory-address">
+                    <div style="padding-left:10px;">
+                      <div class="client-name">
+                        <div>Patient Name: <span class="font-weight-bold" style="font-size: 14px;">
+                          <span tal:replace="model/getPatientFullName|nothing"/>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="client-gender">
+                      <div>Gender: <span style="font-size: 14px;" tal:content="python:model.get_gender(model.Sex)"></span>
+                      </div>
+                    </div>
+                    <div class="client-age">
+                      <div>Age: <span style="font-size: 14px;" tal:replace="model/Age/years|nothing"/>
+                      </div>
+                    </div>
+                    <div class="client-city">
+                      <div>Address: <span style="font-size: 14px;" tal:replace="model/PatientAddress|nothing"></span>
+                      </div>
+                    </div>
+                    <div class="contact-phone">
+                      <div>Medical Record No: <span style="font-size: 14px;" tal:content="model/MedicalRecordNumber/value|nothing"></span>
+                      </div>
+                    </div>
+                    <div class="lab-title">
+                      <div>Received: <span class="font-weight-bold" style="font-size: 14px;">
+                        <span tal:content="python:view.to_localized_time(model.DateReceived)"/>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="lab-title" style="margin-bottom:20px">
+                    <div>Published: <span class="font-weight-bold" style="font-size: 14px;">
+                      <span tal:content="python:view.to_localized_time(view.timestamp)"/>
+                    </span>
+                  </div>
+
+                  <div class="lab-title" style="margin-bottom:20px">
+                    <div>Lab Number: <span class="font-weight-bold" style="font-size: 14px;">
+                      <span tal:content="model/LabNumber|nothing"/>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </address>
+          </td>
+        </tr>
+
+      </table>
+    </div>
+    <!-- Clear Floats -->
+    <div class="clearfix"></div>
+  </div>
+
+</tal:t>
