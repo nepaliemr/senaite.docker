@@ -24,7 +24,9 @@ from collections import Sequence
 from itertools import chain
 from operator import itemgetter
 from string import Template
-
+import pytz
+from datetime import datetime
+from dateutil import parser
 import DateTime
 from bika.lims import POINTS_OF_CAPTURE
 from bika.lims import api
@@ -211,6 +213,19 @@ class ReportView(Base):
     def timestamp(self):
         return DateTime.DateTime()
 
+    @property
+    def timestamp_nepal(self):
+        # Get the current time in UTC
+        utc_time = datetime.utcnow().replace(tzinfo=pytz.utc)
+        
+        # Define the Asia/Kathmandu timezone
+        ktm_tz = pytz.timezone('Asia/Kathmandu')
+        
+        # Convert the UTC time to Asia/Kathmandu time
+        local_time = utc_time.astimezone(ktm_tz)
+        
+        return local_time.strftime("%Y-%m-%d %I:%M %p")
+
     def to_localized_time(self, date, **kw):
         """Converts the given date to a localized time string
         """
@@ -226,6 +241,51 @@ class ReportView(Base):
         }
         options.update(kw)
         return ulocalized_time(date, **options)
+
+    def convert_to_localized_time_nepal(self, utc_time):
+        """Converts the given UTC time to a localized time string in Asia/Kathmandu timezone."""
+        print("UTC Time: ", utc_time)
+
+        if utc_time is None:
+            return ""
+
+        # Define Nepal timezone
+        nepal_tz = pytz.timezone('Asia/Kathmandu')
+
+        # If the input is a Zope DateTime object
+        if isinstance(utc_time, DateTime.DateTime):
+            # Convert to Python datetime and make it timezone-aware
+            dt = utc_time.asdatetime()
+            if utc_time.timezone() != 'UTC':
+                # If not UTC, assume it's already in Nepal time
+                dt_nepal = dt
+            else:
+                dt_nepal = dt.astimezone(nepal_tz)
+
+        # If the input is a Python datetime object
+        elif isinstance(utc_time, datetime.datetime):
+            if utc_time.tzinfo is None:
+                # Assume naive datetime is in UTC
+                utc_time = pytz.utc.localize(utc_time)
+            dt_nepal = utc_time.astimezone(nepal_tz)
+
+        # If the input is a string, attempt to parse it
+        elif isinstance(utc_time, str):
+            try:
+                dt = parser.isoparse(utc_time)
+                if dt.tzinfo is None:
+                    # Assume naive datetime is in UTC
+                    dt = pytz.utc.localize(dt)
+                dt_nepal = dt.astimezone(nepal_tz)
+            except ValueError:
+                return "Invalid date string format"
+
+        else:
+            return "Invalid date format"
+
+        # Format the output
+        formatted_time = dt_nepal.strftime("%Y-%m-%d %I:%M %p")
+        return formatted_time
 
     def get_resource_url(self, name, prefix=""):
         """Return the full resouce URL

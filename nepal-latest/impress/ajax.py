@@ -234,8 +234,8 @@ class AjaxPublishView(PublishView):
         # get the selected orientation
         orientation = data.get("orientation", "portrait")
 
-        # get a timestamp
-        timestamp = DateTime().ISO()
+        # Set timezone to Kathmandu/Asia
+        timestamp = DateTime().toZone('Asia/Kathmandu')
 
         # Generate the print CSS with the set format/orientation
         css = self.get_print_css(

@@ -271,7 +271,7 @@ class AddAnalysesView(BikaListingView):
 
         DueDate = obj.getDueDate
 
-        item["getDateReceived"] = self.ulocalized_time(obj.getDateReceived)
+        item["getDateReceived"] = obj.getDateReceived
         item["getDueDate"] = self.ulocalized_time(DueDate)
 
         if DueDate and DueDate < DateTime():

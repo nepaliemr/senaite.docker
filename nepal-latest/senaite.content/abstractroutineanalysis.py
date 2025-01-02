@@ -133,6 +133,15 @@ class AbstractRoutineAnalysis(AbstractAnalysis, ClientAwareMixin):
         request = self.getRequest()
         if request:
             return request.getClientOrderNumber()
+        
+    @security.public
+    def getLabNumber(self):
+        """Used to populate catalog values.
+        Returns the LabNumber of the associated AR
+        """
+        request = self.getRequest()
+        if request:
+            return request.getLabNumber()
 
     @security.public
     def getDateReceived(self):

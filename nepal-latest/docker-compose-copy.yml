@@ -1,0 +1,87 @@
+version: "3.9"
+
+services:
+  zeo:
+    image: senaite/senaite:2.x
+    command: zeo
+    volumes:
+      - ./data:/data
+      - ./images:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/static/images
+      - ./impress:/home/senaite/senaitelims/src/senaite.impress/src/senaite/impress
+      - ./senaite.app.listing:/home/senaite/senaitelims/src/senaite.app.listing
+      - ./stickers:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/templates/stickers
+      - ./content:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/content
+      - ./senaite.content:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/content
+      - ./worksheet:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/worksheet
+      - ./senaite.jsonapi:/home/senaite/senaitelims/src/senaite.jsonapi
+      - ./samples:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/samples
+      - ./analysisrequest:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/workflow/analysisrequest
+      - ./portlets:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/portlets
+      - ./analyses:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/analyses
+      - ./indexer:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/catalog/indexer
+      - ./catalog:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/catalog
+
+  instance1:
+    image: senaite/senaite:2.x
+    ports:
+      - 8090:8080
+    links:
+      - zeo
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1024MB
+
+    volumes:
+      - ./images:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/static/images
+      - ./impress:/home/senaite/senaitelims/src/senaite.impress/src/senaite/impress
+      - ./senaite.app.listing:/home/senaite/senaitelims/src/senaite.app.listing
+      - ./stickers:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/templates/stickers
+      - ./content:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/content
+      - ./senaite.content:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/content
+      - ./worksheet:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/worksheet
+      - ./senaite.jsonapi:/home/senaite/senaitelims/src/senaite.jsonapi
+      - ./samples:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/samples
+      - ./analysisrequest:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/workflow/analysisrequest
+      - ./portlets:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/portlets
+      - ./analyses:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/analyses
+      - ./indexer:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/catalog/indexer
+      - ./catalog:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/catalog
+
+    environment:
+      ZEO_ADDRESS: "zeo:8080"
+
+  instance2:
+    image: senaite/senaite:2.x
+    ports:
+      - 8082:8080
+    links:
+      - zeo
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1024MB
+    volumes:
+      - ./images:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/static/images
+      - ./impress:/home/senaite/senaitelims/src/senaite.impress/src/senaite/impress
+      - ./senaite.app.listing:/home/senaite/senaitelims/src/senaite.app.listing
+      - ./stickers:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/templates/stickers
+      - ./content:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/content
+      - ./senaite.content:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/content
+      - ./worksheet:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/worksheet
+      - ./senaite.jsonapi:/home/senaite/senaitelims/src/senaite.jsonapi
+      - ./samples:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/samples
+      - ./analysisrequest:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/workflow/analysisrequest
+      - ./portlets:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/portlets
+      - ./analyses:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/analyses
+      - ./indexer:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/catalog/indexer
+      - ./catalog:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/catalog
+
+    environment:
+      ZEO_ADDRESS: "zeo:8080"
+
+volumes:
+  data:
+    external: true

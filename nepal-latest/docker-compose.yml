@@ -6,14 +6,43 @@ services:
     command: zeo
     volumes:
       - ./data:/data
-      - ./images:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/static/images
-      - ./impress:/home/senaite/senaitelims/src/senaite.impress/src/senaite/impress
-      - ./senaite.app.listing:/home/senaite/senaitelims/src/senaite.app.listing
-      - ./stickers:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/templates/stickers
-      - ./content:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/content
-      - ./senaite.content:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/content
-      - ./worksheet:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/worksheet
-      - ./senaite.jsonapi:/home/senaite/senaitelims/src/senaite.jsonapi
+      # - ./content/analysisrequest.py:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/content/analysisrequest.py
+      # - ./content/laboratory.py:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/content/laboratory.py
+      # - ./content/bikasetup.py:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/content/bikasetup.py
+
+      # # Static Images
+      # - ./images:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/static/images
+
+      # # Impress Customizations
+      # - ./impress:/home/senaite/senaitelims/src/senaite.impress/src/senaite/impress
+
+      # # Listing Customizations
+      # - ./senaite.app.listing:/home/senaite/senaitelims/src/senaite.app.listing
+
+      # # Stickers Templates
+      # - ./stickers:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/templates/stickers
+
+      # # Worksheet Templates
+      # - ./worksheet/templates/print/sample_by_column.pt:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/worksheet/templates/print/sample_by_column.pt
+      # - ./worksheet/templates/print/sample_by_row.pt:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/worksheet/templates/print/sample_by_row.pt
+
+      # # String Parser Customization
+      # - ./senaite.jsonapi/src/senaite/jsonapi/fieldmanagers.py:/home/senaite/senaitelims/src/senaite.jsonapi/src/senaite/jsonapi/fieldmanagers.py
+
+      # # Sample View Page Customization
+      # - ./samples/view.py:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/samples/view.py
+
+      # # Analysis Request Events
+      # - ./analysisrequest/events.py:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/workflow/analysisrequest/events.py
+
+      # # Sidebar Navigation Customization
+      # - ./portlets/navigation.py:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/portlets/navigation.py
+
+      # # Catalog Indexer Customization
+      # - ./indexer/sample.py:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/catalog/indexer/sample.py
+
+      # # Catalog Customization for Sample
+      # - ./catalog/sample_catalog.py:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/catalog/sample_catalog.py
 
   instance1:
     image: senaite/senaite:2.x
@@ -27,15 +56,44 @@ services:
           cpus: "1"
           memory: 1024MB
 
-    volumes:
-      - ./images:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/static/images
-      - ./impress:/home/senaite/senaitelims/src/senaite.impress/src/senaite/impress
-      - ./senaite.app.listing:/home/senaite/senaitelims/src/senaite.app.listing
-      - ./stickers:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/templates/stickers
-      - ./content:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/content
-      - ./senaite.content:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/content
-      - ./worksheet:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/worksheet
-      - ./senaite.jsonapi:/home/senaite/senaitelims/src/senaite.jsonapi
+    # volumes:
+    #   - ./content/analysisrequest.py:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/content/analysisrequest.py
+    #   - ./content/laboratory.py:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/content/laboratory.py
+    #   - ./content/bikasetup.py:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/content/bikasetup.py
+
+    #   # Static Images
+    #   - ./images:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/static/images
+
+    #   # Impress Customizations
+    #   - ./impress:/home/senaite/senaitelims/src/senaite.impress/src/senaite/impress
+
+    #   # Listing Customizations
+    #   - ./senaite.app.listing:/home/senaite/senaitelims/src/senaite.app.listing
+
+    #   # Stickers Templates
+    #   - ./stickers:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/templates/stickers
+
+    #   # Worksheet Templates
+    #   - ./worksheet/templates/print/sample_by_column.pt:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/worksheet/templates/print/sample_by_column.pt
+    #   - ./worksheet/templates/print/sample_by_row.pt:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/worksheet/templates/print/sample_by_row.pt
+
+    #   # String Parser Customization
+    #   - ./senaite.jsonapi/src/senaite/jsonapi/fieldmanagers.py:/home/senaite/senaitelims/src/senaite.jsonapi/src/senaite/jsonapi/fieldmanagers.py
+
+    #   # Sample View Page Customization
+    #   - ./samples/view.py:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/samples/view.py
+
+    #   # Analysis Request Events
+    #   - ./analysisrequest/events.py:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/workflow/analysisrequest/events.py
+
+    #   # Sidebar Navigation Customization
+    #   - ./portlets/navigation.py:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/portlets/navigation.py
+
+    #   # Catalog Indexer Customization
+    #   - ./indexer/sample.py:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/catalog/indexer/sample.py
+
+    #   # Catalog Customization for Sample
+    #   - ./catalog/sample_catalog.py:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/catalog/sample_catalog.py
 
     environment:
       ZEO_ADDRESS: "zeo:8080"
@@ -51,15 +109,44 @@ services:
         limits:
           cpus: "1"
           memory: 1024MB
-    volumes:
-      - ./images:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/static/images
-      - ./impress:/home/senaite/senaitelims/src/senaite.impress/src/senaite/impress
-      - ./senaite.app.listing:/home/senaite/senaitelims/src/senaite.app.listing
-      - ./stickers:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/templates/stickers
-      - ./content:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/content
-      - ./senaite.content:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/content
-      - ./worksheet:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/worksheet
-      - ./senaite.jsonapi:/home/senaite/senaitelims/src/senaite.jsonapi
+    # volumes:
+    #   - ./content/analysisrequest.py:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/content/analysisrequest.py
+    #   - ./content/laboratory.py:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/content/laboratory.py
+    #   - ./content/bikasetup.py:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/content/bikasetup.py
+
+    #   # Static Images
+    #   - ./images:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/static/images
+
+    #   # Impress Customizations
+    #   - ./impress:/home/senaite/senaitelims/src/senaite.impress/src/senaite/impress
+
+    #   # Listing Customizations
+    #   - ./senaite.app.listing:/home/senaite/senaitelims/src/senaite.app.listing
+
+    #   # Stickers Templates
+    #   - ./stickers:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/templates/stickers
+
+    #   # Worksheet Templates
+    #   - ./worksheet/templates/print/sample_by_column.pt:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/worksheet/templates/print/sample_by_column.pt
+    #   - ./worksheet/templates/print/sample_by_row.pt:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/worksheet/templates/print/sample_by_row.pt
+
+    #   # String Parser Customization
+    #   - ./senaite.jsonapi/src/senaite/jsonapi/fieldmanagers.py:/home/senaite/senaitelims/src/senaite.jsonapi/src/senaite/jsonapi/fieldmanagers.py
+
+    #   # Sample View Page Customization
+    #   - ./samples/view.py:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/samples/view.py
+
+    #   # Analysis Request Events
+    #   - ./analysisrequest/events.py:/home/senaite/senaitelims/src/senaite.core/src/bika/lims/workflow/analysisrequest/events.py
+
+    #   # Sidebar Navigation Customization
+    #   - ./portlets/navigation.py:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/portlets/navigation.py
+
+    #   # Catalog Indexer Customization
+    #   - ./indexer/sample.py:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/catalog/indexer/sample.py
+
+    #   # Catalog Customization for Sample
+    #   - ./catalog/sample_catalog.py:/home/senaite/senaitelims/src/senaite.core/src/senaite/core/catalog/sample_catalog.py
 
     environment:
       ZEO_ADDRESS: "zeo:8080"

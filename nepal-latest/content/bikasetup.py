@@ -271,6 +271,15 @@ schema = BikaFolderSchema.copy() + Schema((
         )
     ),
     StringField(
+        'OpenMrsEndpoint',
+        schemata="Results Reports",
+        default='',
+        widget=StringWidget(
+            label=_("OpenMRS Endpoint"),
+            description=_("Enter the URL of the OpenMRS endpoint to send results to"),
+        )
+    ),
+    StringField(
         'DecimalMark',
         schemata="Results Reports",
         vocabulary=DECIMAL_MARKS,
@@ -419,7 +428,7 @@ schema = BikaFolderSchema.copy() + Schema((
     BooleanField(
         'SelfVerificationEnabled',
         schemata="Analyses",
-        default=False,
+        default=True,
         widget=BooleanWidget(
             label=_("Allow self-verification of results"),
             description=_(
@@ -428,7 +437,7 @@ schema = BikaFolderSchema.copy() + Schema((
                 "with a role assigned that allows them to verify results "
                 "(by default, managers, labmanagers and verifiers)."
                 "This setting can be overrided for a given Analysis in "
-                "Analysis Service edit view. By default, disabled."),
+                "Analysis Service edit view. By default, enabled."),
         ),
     ),
     IntegerField(

@@ -2,11 +2,15 @@
                      portal_url portal_state/portal_url;
                      item python:view.current_item;
                      sample_id item/getId;
+                     gender item/getGender;
+                     age item/Age/years;
+                     lab_number item/getLabNumber;
+                     mrn item/getMedicalRecordNumberValue;
                      sample_type item/getSampleTypeTitle;
                      date_sampled python:view.ulocalized_time(item.getDateSampled());
-                     client_title item/getClientTitle;
+                     client_title item/getPatientFullName;
                      hazardous item/getHazardous">
-                     
+
 
   <!-- Some additional info about the sample -->
   <div class="sample-info">
@@ -16,12 +20,23 @@
           <img tal:attributes="src string:${portal_url}/senaite_theme/icon/hazardous"/>
         </td>
         <td colspan="2">
-          <strong tal:content="sample_id">Sample ID</strong>
+          <div tal:replace="structure python:'<strong>%s</strong> &#160; (<span>%s</span>/<span>%s</span>)' % (sample_id, gender.capitalize(), age)">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div>
+            <strong tal:content="lab_number">Lab Number</strong>
+          </div>
         </td>
       </tr>
       <tr>
         <td>
-          <dvi tal:content="client_title">Title</dvi>
+          <div>
+            <span tal:content="client_title">Title</span>
+            <span tal:replace="python:mrn and ' (%s)' % mrn or ''">MRN</span>
+          </div>
           <div tal:content="date_sampled">Date Sampled</div>
         </td>
       </tr>

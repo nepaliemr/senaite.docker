@@ -62,13 +62,13 @@
                     </div>
                     <div class="lab-title">
                       <div>Received: <span class="font-weight-bold" style="font-size: 14px;">
-                        <span tal:content="python:view.to_localized_time(model.DateReceived)"/>
+                        <span tal:content="python:view.convert_to_localized_time_nepal(model.DateReceived)"/>
                       </span>
                     </div>
                   </div>
                   <div class="lab-title" style="margin-bottom:20px">
                     <div>Published: <span class="font-weight-bold" style="font-size: 14px;">
-                      <span tal:content="python:view.to_localized_time(view.timestamp)"/>
+                      <span tal:content="python:view.timestamp_nepal"/>
                     </span>
                   </div>
 

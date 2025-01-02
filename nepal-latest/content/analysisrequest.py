@@ -23,7 +23,7 @@ import functools
 import re
 from datetime import datetime
 from decimal import Decimal
-
+import random
 from AccessControl import ClassSecurityInfo
 from bika.lims import api
 from bika.lims import bikaMessageFactory as _
@@ -72,6 +72,7 @@ from Products.Archetypes.atapi import FixedPointField
 from Products.Archetypes.atapi import StringField
 from Products.Archetypes.atapi import StringWidget
 from Products.Archetypes.atapi import TextField
+from Products.Archetypes.atapi import TextAreaWidget
 from Products.Archetypes.atapi import registerType
 from Products.Archetypes.config import UID_CATALOG
 from Products.Archetypes.Field import IntegerField
@@ -131,6 +132,10 @@ from six.moves.urllib.parse import urljoin
 from zope.interface import alsoProvides
 from zope.interface import implements
 from zope.interface import noLongerProvides
+from DateTime import DateTime
+import pytz
+import datetime
+import uuid
 
 IMG_SRC_RX = re.compile(r'<img.*?src="(.*?)"')
 IMG_DATA_SRC_RX = re.compile(r'<img.*?src="(data:image/.*?;base64,)(.*?)"')
@@ -840,25 +845,46 @@ schema = BikaSchema.copy() + Schema((
                 'secondary': 'disabled',
             },
         ),
+        catalog_name=SENAITE_CATALOG,
+        search_index="listing_searchable_text"
     ),
 
     StringField(
-        'HospitalLabNumber',
+        'SerialId',
         mode="rw",
         read_permission=View,
         write_permission=ModifyPortalContent,
         widget=StringWidget(
-            label=_("Hospital Lab Number"),
-            description=_("The lab number for this request"),
+            label=_("Serial ID"),
+            description=_("The ID for this request"),
             size=20,
             render_own_label=True,
+            visible={
+                'edit': 'invisible',
+                'secondary': 'disabled',
+            },
+        ),
+        catalog_name=SENAITE_CATALOG,
+        search_index="listing_searchable_text"
+    ),
+
+    TextField(
+        'DoctorRemarks',
+        mode="rw",
+        read_permission=View,
+        write_permission=ModifyPortalContent,
+        widget=TextAreaWidget(
+            label=_("Doctor Remarks"),
+            description=_("Remarks from the doctor"),
+            render_own_label=True,
+            rows=10,
+            cols=40,
             visible={
                 'add': 'edit',
                 'secondary': 'disabled',
             },
         ),
     ),
-
 
     StringField(
         'ClientSampleID',
@@ -2387,12 +2413,64 @@ class AnalysisRequest(BaseFolder, ClientAwareMixin):
 
     def setDateReceived(self, value):
         """Sets the date received to this analysis request and to secondary
-        analysis requests
+        analysis requests, ensuring the time is in Asia/Kathmandu timezone.
         """
-        self.Schema().getField('DateReceived').set(self, value)
+
+        # Ensure 'value' is a datetime object or a string
+        if isinstance(value, DateTime):
+            # Convert DateTime to Python datetime with timezone
+            value = datetime.datetime(
+                value.year(), value.month(), value.day(),
+                value.hour(), value.minute(), int(value.second()),
+                int((value.second() - int(value.second())) * 1e6),
+                tzinfo=pytz.utc  # Assuming DateTime is in UTC
+            )
+        elif isinstance(value, datetime.datetime):
+            pass  # Value is already a datetime object
+        elif isinstance(value, str):
+            # Parse string into datetime object
+            value = datetime.datetime.strptime(value, '%Y/%m/%d %H:%M:%S.%f')
+        else:
+            raise TypeError("Expected datetime object or string, got {}".format(type(value)))
+
+        # Convert to Asia/Kathmandu timezone
+        local_tz = pytz.timezone('Asia/Kathmandu')
+
+        # If value has no timezone, assume it's UTC
+        if value.tzinfo is None:
+            value = value.replace(tzinfo=pytz.utc)
+
+        # Convert time to local timezone
+        local_value = value.astimezone(local_tz)
+
+        # Convert back to Zope's DateTime object in local timezone
+        date_received = DateTime(local_value.strftime('%Y/%m/%d %H:%M:%S %Z'))
+
+        print("received_date", date_received)
+
+        # Set the DateReceived field with the local time
+        self.Schema().getField('DateReceived').set(self, date_received)
+
+        # Update secondary analysis requests
         for secondary in self.getSecondaryAnalysisRequests():
-            secondary.setDateReceived(value)
+            secondary.setDateReceived(date_received)
             secondary.reindexObject(idxs=["getDateReceived", "is_received"])
+
+    def setLabNumber(self, value):
+        """Sets the lab number to this analysis request"""
+        self.Schema().getField('LabNumber').set(self, value)
+        for secondary in self.getSecondaryAnalysisRequests():
+            secondary.setLabNumber(value)
+            secondary.reindexObject(idxs=["getLabNumber"])
+
+
+    def setSerialId(self, value):
+        """Sets the ID to this analysis request"""
+        self.Schema().getField('SerialId').set(self, value)
+        for secondary in self.getSecondaryAnalysisRequests():
+            secondary.setSerialId(value)
+            secondary.reindexObject(idxs=["getSerialId"])
+
 
     def setDateSampled(self, value):
         """Sets the date sampled to this analysis request and to secondary
@@ -2412,6 +2490,28 @@ class AnalysisRequest(BaseFolder, ClientAwareMixin):
             secondary.setSamplingDate(value)
             secondary.reindexObject(idxs="getSamplingDate")
 
+    def getLabNumber(self):
+        """Returns the Hospital Lab Number of the Sample
+        """
+        return self.getField("LabNumber").get(self)
+    
+
+    def getSerialId(self):
+        """Returns the Hospital Lab Number of the Sample
+        """
+        return self.getField("SerialId").get(self)
+
+
+    def getClientOrderNumber(self):
+            """Returns the Hospital Lab Number of the Sample
+            """
+            return self.getField("ClientOrderNumber").get(self)
+    
+    def getMedicalRecordNumber(self):
+        """Returns Medical Record Number of the Sample from keyword
+        """
+        return self.getField("MedicalRecordNumber").get(self)
+    
     def getSelectedRejectionReasons(self):
         """Returns a list with the selected rejection reasons, if any
         """

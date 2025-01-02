@@ -30,7 +30,6 @@ COPY requirements.txt buildout.cfg $SENAITE_INSTANCE_HOME/
 # Copy the build dependencies and startup scripts
 COPY build_deps.txt run_deps.txt docker-initialize.py docker-entrypoint.sh /
 
-
 # Note: we concatenate all commands to avoid multiple layer generation and reduce the image size
 RUN apt-get update \
     # Install system packages
@@ -65,6 +64,8 @@ COPY content/analysisrequest.py /home/senaite/senaitelims/src/senaite.core/src/b
 
 COPY content/laboratory.py /home/senaite/senaitelims/src/senaite.core/src/bika/lims/content/laboratory.py
 
+COPY content/bikasetup.py /home/senaite/senaitelims/src/senaite.core/src/bika/lims/content/bikasetup.py
+
 COPY images /home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/static/images
 
 COPY impress /home/senaite/senaitelims/src/senaite.impress/src/senaite/impress
@@ -75,9 +76,26 @@ COPY stickers /home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/t
 
 COPY worksheet/templates/print/sample_by_column.pt /home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/worksheet/templates/print/sample_by_column.pt
 
+#Worksheet Print Customization
 COPY worksheet/templates/print/sample_by_row.pt /home/senaite/senaitelims/src/senaite.core/src/bika/lims/browser/worksheet/templates/print/sample_by_row.pt
 
+#String Parser Customization
 COPY senaite.jsonapi/src/senaite/jsonapi/fieldmanagers.py /home/senaite/senaitelims/src/senaite.jsonapi/src/senaite/jsonapi/fieldmanagers.py
+
+#Sample View Page Customization
+COPY samples/view.py /home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/samples/view.py
+
+#Analysis Request Events
+COPY analysisrequest/events.py /home/senaite/senaitelims/src/senaite.core/src/bika/lims/workflow/analysisrequest/events.py
+
+#Sidebar Navigation
+COPY portlets/navigation.py /home/senaite/senaitelims/src/senaite.core/src/senaite/core/browser/portlets/navigation.py
+
+#Catalog Indexer Customization for Sample
+COPY indexer/sample.py /home/senaite/senaitelims/src/senaite.core/src/senaite/core/catalog/indexer/sample.py
+
+#Catalog Customization for Sample
+COPY catalog/sample_catalog.py /home/senaite/senaitelims/src/senaite.core/src/senaite/core/catalog/sample_catalog.py
 
 
 # Expose instance port
